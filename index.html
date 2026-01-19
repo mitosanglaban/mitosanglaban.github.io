@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="fil">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mitosanglaban — Mitos at Laban</title>
+  <meta name="description" content="Mitosanglaban — Isang lokal na fighting game at developer toolkit na nakabase sa Filipino mythos." />
+  <style>
+    :root{
+      --bg:#0f1724; --card:#0b1220; --accent:#ef6c23; --muted:#9aa4b2; --glass: rgba(255,255,255,0.03);
+      --maxw:1100px;
+      color:#e6eef6; font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; background:
+      linear-gradient(180deg, rgba(7,10,16,1) 0%, rgba(10,13,20,1) 100%);
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+      padding:32px 16px;
+      display:flex; justify-content:center;
+    }
+    .wrap{width:100%; max-width:var(--maxw);}
+    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+      margin-bottom:28px;
+    }
+    .brand{display:flex; gap:12px; align-items:center;}
+    .logo{
+      width:56px; height:56px; border-radius:8px; background:linear-gradient(135deg,#1f2937,#111827);
+      display:flex; align-items:center; justify-content:center; border:1px solid rgba(255,255,255,0.03);
+      font-weight:700; color:var(--accent); font-size:20px;
+    }
+    h1{margin:0; font-size:20px; letter-spacing:0.4px}
+    .tag{color:var(--muted); font-size:13px;}
+    .actions{display:flex; gap:10px; align-items:center;}
+    .btn{
+      background:var(--accent); color:#071018; padding:10px 14px; border-radius:8px; text-decoration:none;
+      font-weight:600; box-shadow:0 6px 18px rgba(239,108,35,0.14); border:none;
+    }
+    .btn.secondary{background:transparent; border:1px solid rgba(255,255,255,0.06); color:var(--accent)}
+    main{display:grid; gap:28px;}
+    .hero{
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:12px; padding:20px; box-shadow:0 6px 30px rgba(2,6,23,0.6);
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .hero-grid{display:grid; grid-template-columns:1fr 320px; gap:20px;}
+    .lead{color:#dbe9f8; line-height:1.5}
+    .features{background:var(--glass); padding:14px; border-radius:10px; color:var(--muted); font-size:14px;}
+    .features h3{margin:0 0 8px 0; color:var(--accent); font-size:15px;}
+    .feature-list{list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:8px;}
+    .feature-item{background:rgba(255,255,255,0.01); padding:10px; border-radius:8px; font-size:14px;}
+    /* Lore gallery */
+    .lore{
+      background:linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0.01));
+      padding:18px; border-radius:12px; border:1px solid rgba(255,255,255,0.03);
+    }
+    .scene-title{font-size:16px; color:var(--accent); margin:6px 0 12px 0;}
+    .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02));
+      border-radius:10px; overflow:hidden; border:1px solid rgba(255,255,255,0.02);
+      display:flex; flex-direction:column;
+    }
+    .card img{width:100%; height:170px; object-fit:cover; display:block; background:#081018;}
+    .card .meta{padding:10px; font-size:14px; color:var(--muted);}
+    .frame-title{color:#dff1ff; font-weight:600; margin-bottom:6px; font-size:14px;}
+    /* Procedures */
+    .procedures{display:grid; gap:12px;}
+    .proc{background:rgba(255,255,255,0.02); padding:14px; border-radius:10px; border:1px solid rgba(255,255,255,0.02);}
+    ol{color:var(--muted);}
+    .note{font-size:13px; color:#c3d3e0;}
+    footer{margin-top:20px; color:var(--muted); font-size:13px; text-align:center;}
+    @media(max-width:820px){
+      .hero-grid{grid-template-columns:1fr;}
+      .brand h1{font-size:18px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">ML</div>
+        <div>
+          <h1>Mitosanglaban</h1>
+          <div class="tag">Lokal na fighting game at toolkit — mitosangalaban.github.io</div>
+        </div>
+      </div>
+      <div class="actions">
+        <!-- Palitan ang filename kung kakaiba -->
+        <a class="btn" id="download-game" href="https://mitosangalaban.github.io/mitosanglaban-game.zip" download>Download Game</a>
+        <a class="btn secondary" id="download-toolkit" href="https://mitosangalaban.github.io/mitosanglaban-toolkit.zip" download>Download Fighting Game Developer Toolkit</a>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO / Intro -->
+      <section class="hero" aria-labelledby="intro-title">
+        <div class="hero-grid">
+          <div>
+            <h2 id="intro-title" style="margin-top:0;color:#eaf6ff">Kilalanin ang Mitosanglaban</h2>
+            <p class="lead">Ang <strong>Mitosanglaban</strong> ay isang fighting game at open toolkit na naglalahad ng mga kwentong-bayan at mitolohiya ng Pilipinas. Layunin namin na pagyamanin ang lokal na sining, kwento, at game development culture sa bansa — mula sa malikhaing nota ng mga tradisyunal na artista hanggang sa mga nagsisimulang developer na gustong matuto at mag-mod.</p>
+            <p class="note">Ang site na ito ay showcase ng lore, mga larawan ng kabanata, at mga tool na puwede mong i-download at gamitin.</p>
+          </div>
+          <aside class="features" aria-labelledby="why-title">
+            <h3 id="why-title">Bakit kakaiba kami?</h3>
+            <ul class="feature-list">
+              <li class="feature-item"><strong>Iba’t ibang mundo at kultura:</strong> Nakatuon sa puso ng Filipino mythos—mas malapit at mas homegrown kaysa sa ibang laro.</li>
+              <li class="feature-item"><strong>Estilong sining:</strong> Ang key art para kay Alyas at mga halimaw ay mano-mano ginawa at na-scan—pinapahalagahan ang tradisyunal na paggawa.</li>
+              <li class="feature-item"><strong>Modular at bukas:</strong> Hindi closed-source—puwede i-mod, palawakin, at gawing sarili ng sinuman. May kasamang beginner toolkit para sa mga naghahangad gumawa ng sariling laro.</li>
+            </ul>
+            <div style="margin-top:12px; display:flex; gap:8px;">
+              <a class="btn" href="#lore">Tingnan ang Lore</a>
+              <a class="btn secondary" href="#procedures">Mga Proseso</a>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- LORE GALLERY -->
+      <section id="lore" class="lore" aria-labelledby="lore-title">
+        <h2 id="lore-title" style="margin-top:0;color:#eaf6ff">Lore: Kwento ni Alyas</h2>
+
+        <!-- Scene 1 -->
+        <div class="scene">
+          <div class="scene-title">Scene 1 — Pinagmulan ni Alyas</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/1.png" alt="Family Portrait — Alyas batang may pamilya">
+              <div class="meta">
+                <div class="frame-title">Frame 1 — Family Portrait / Introduksyon</div>
+                <div>Si Alyas ay ipinanganak sa isang pamilya ng mga mandirigma, na kilala sa buong bayan bilang mga ‘Tagapagligtas Mula sa mga Multo at Halimaw’.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/2.png" alt="Alyas nagta-train">
+              <div class="meta">
+                <div class="frame-title">Frame 2 — Training ni Alyas</div>
+                <div>Sa murang edad, natutunan ni Alyas ang sining ng pakikipaglaban, paggamit ng anting-anting para sa proteksyon, at mga sinaunang taktika ng kanyang pamilya upang mapanatiling ligtas ang mga tao mula sa masasamang espiritu.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/3.png" alt="Night attack sa bahay">
+              <div class="meta">
+                <div class="frame-title">Frame 3 — Night Attack sa Pamilya</div>
+                <div>Isang gabi, habang siya ay bata pa, sinalakay ng isang grupo ng malalakas na nilalang ang kanilang tahanan.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/3-1.png" alt="Alyas nagtatago sa cabinet">
+              <div class="meta">
+                <div class="frame-title">Frame 3.1 — Alyas Nagtatago</div>
+                <div>Nasa loob ng cabinet nagtatago si Alyas, nakikitang takot na takot.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/4.png" alt="Pagkamatay ng mga magulang">
+              <div class="meta">
+                <div class="frame-title">Frame 4 — Kamatayan ng mga Magulang</div>
+                <div>Namatay ang kanyang mga magulang sa labanang iyon, at naiwan si Alyas na may sugatang puso ngunit puno ng determinasyon.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/4-1.png" alt="Alyas determinasyon close-up">
+              <div class="meta">
+                <div class="frame-title">Frame 4.1 — Determinasyon ni Alyas</div>
+                <div>Close-up kay Alyas: determinado siyang ipagpatuloy ang misyon ng pamilya—parang sinasabi, “Gagawin kong mabayaran sila.”</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 2 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 2 — Paglalakbay papuntang Amomongo</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/5.png" alt="Alyas nag-alis">
+              <div class="meta">
+                <div class="frame-title">Frame 5 — Pag-alis ni Alyas</div>
+                <div>Noong nasa tamang edad na si Alyas, napagpasyahan niya na maglakbay para 'irevenge help' ang kaniyang mga magulang.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/6.png" alt="Memorya habang naglalakad">
+              <div class="meta">
+                <div class="frame-title">Frame 6 — Alaala ng Trahedya</div>
+                <div>Bawat hakbang niya ay may kasamang pag-alaala sa trahedya na kumitil sa kanyang pamilya. Ang puso niya ay puno ng galit at determinasyon.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/7.png" alt="Pagkuha ng impormasyon tungkol kay Amomongo">
+              <div class="meta">
+                <div class="frame-title">Frame 7 — Pag-alam tungkol kay Amomongo</div>
+                <div>Narinig niya mula sa ilang nakaligtas na ang isa sa mga halimaw na responsable ay isang dambuhalang unggoy na kilala bilang Amomongo.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/8.png" alt="Nag-iisang paglalakbay">
+              <div class="meta">
+                <div class="frame-title">Frame 8 — Nag-iisang Paglalakbay</div>
+                <div>Naglakbay si Alyas ng nag-iisa, hindi humihinto sa mga baryo o sa mga nakasalubong na tao.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/9.png" alt="Bundok at atmospera">
+              <div class="meta">
+                <div class="frame-title">Frame 9 — Atmospera ng Bundok</div>
+                <div>Ang bundok ay mabato at madulas, may mga matatandang puno at malamig na hangin—parang bulong mula sa kagubatan.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 3 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 3 — Engkwentro kay Amomongo</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/10.png" alt="Paglabas ni Amomongo">
+              <div class="meta">
+                <div class="frame-title">Frame 10 — Paglitaw ni Amomongo</div>
+                <div>Biglang sumulpot si Amomongo: matangkad, mabangis, may matitinik na kuko at malakas na puwersa.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/11.png" alt="Pagkatalo kay Amomongo">
+              <div class="meta">
+                <div class="frame-title">Frame 11 — Pagkatalo kay Amomongo</div>
+                <div>Sa wakas, natalo ni Alyas si Amomongo. Walang kasiyahan—tanging pag-init ng galit na nag-udyok sa kanya na ipagpatuloy ang misyon.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 4 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 4 — Pagdating sa Baryo</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/12.png" alt="Pagpasok sa baryo">
+              <div class="meta">
+                <div class="frame-title">Frame 12 — Pagpasok sa Baryo</div>
+                <div>Habang naglalakad sa makipot na daanan sa kagubatan, narating niya ang isang liblib na baryo…</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/12-1.png" alt="Mga tao takot">
+              <div class="meta">
+                <div class="frame-title">Frame 12.1 — Mga Tao sa Takot</div>
+                <div>May mga taong nagtitipon sa palibot ng bonfire—mga mukha puno ng takot at pag-aalala.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/12-2.png" alt="Closeup Alyas">
+              <div class="meta">
+                <div class="frame-title">Frame 12.2 — Close-up kay Alyas</div>
+                <div>Close-up: mukha ni Alyas na parang grim, puno ng init at konsentrasyon.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/13.png" alt="Pagmamasid sa takot ng baryo">
+              <div class="meta">
+                <div class="frame-title">Frame 13 — Pagmamasid sa Takot</div>
+                <div>Nakita niya ang mga batang natatakot, nagtatakbuhan, at mga magulang na umiiyak dahil sa takot.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/13-1.png" alt="Closeup sa kamay ni Alyas">
+              <div class="meta">
+                <div class="frame-title">Frame 13.1 — Close-up sa Hawak</div>
+                <div>Close-up sa kamay ni Alyas na mahigpit na humahawak sa kanyang sandata—handa sa pagharap sa panganib.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/13-2.png" alt="Tanawing bundok">
+              <div class="meta">
+                <div class="frame-title">Frame 13.2 — Tanawing Bundok</div>
+                <div>Kaya noong kinagabihan na iyon, hinintay niya si Pugot sa paanan ng bundok.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 5 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 5 — Laban kay Pugot</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/15.png" alt="Paglabas ni Pugot">
+              <div class="meta">
+                <div class="frame-title">Frame 15 — Paglitaw ni Pugot</div>
+                <div>Sa dilim ng gabi, lumitaw si Pugot: mabilis, mahirap hulihin, at parang anino sa ilalim ng buwan.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/16.png" alt="Laban kay Pugot">
+              <div class="meta">
+                <div class="frame-title">Frame 16 — Laban kay Pugot</div>
+                <div>Natalo niya si Pugot at naprotektahan ang baryo mula sa panganib.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/17.png" alt="Baryo ligtas">
+              <div class="meta">
+                <div class="frame-title">Frame 17 — Ligtas ang Baryo</div>
+                <div>Habang pinagmamasdan ang mga batang ligtas, naramdaman ni Alyas ang kakaibang init sa kanyang dibdib.</div>
+                <div style="margin-top:8px; font-style:italic;">Dialogo ni Alyas: "Hindi na lang ito tungkol sa galit… kundi, ito ay tungkol sa proteksyon ng mga inosente."</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 6 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 6 — Liham tungkol kay Rabot</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/18.png" alt="Gabi sa bahay ng elder">
+              <div class="meta">
+                <div class="frame-title">Frame 18 — Gabi sa Bahay ng Village Elder</div>
+                <div>Isang gabi, habang nag-iisa sa maliit na bahay ng village elder, may dumating na liham…</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/19.png" alt="Pagbabasa ng liham">
+              <div class="meta">
+                <div class="frame-title">Frame 19 — Pagbabasa ng Liham</div>
+                <div>"Alyas, alam ko na ang isa pang nilalang na pumatay sa iyong pamilya… Rabot…"</div>
+                <div style="margin-top:8px; font-style:italic;">Dialogo ni Alyas: "Rabot… Mastermind. Kung gusto ko ng hustisya, kailangan kong harapin siya."</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Scene 7 -->
+        <div style="margin-top:18px;">
+          <div class="scene-title">Scene 7 — Paglakbay at Huling Laban</div>
+          <div class="cards">
+            <article class="card">
+              <img src="assets/images/20.png" alt="Pagpasok sa malalim na gubat">
+              <div class="meta">
+                <div class="frame-title">Frame 20 — Pagpasok sa Malalim na Gubat</div>
+                <div>Matapos tanggapin ang liham, naglakbay si Alyas patungo sa pinakamalalim na bahagi ng kagubatan.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/21.png" alt="Pakiramdam ng aura ni Rabot">
+              <div class="meta">
+                <div class="frame-title">Frame 21 — Pakiramdam ng Aura</div>
+                <div>Nararamdaman niya ang malamig at nakakatakot na aura ng halimaw—may aninag ng Rabot sa malayo.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/22.png" alt="Huling labanan">
+              <div class="meta">
+                <div class="frame-title">Frame 22 — Huling Laban kay Rabot</div>
+                <div>Matapos ang matinding laban kay Rabot…</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/23.png" alt="Pagbalik sa baryo">
+              <div class="meta">
+                <div class="frame-title">Frame 23 — Tagumpay at Pagbalik</div>
+                <div>Lumabas si Alyas mula sa dilim, sugatan at pagod ngunit puno ng determinasyon—sinalubong siya ng mga tao at bata sa baryo.</div>
+              </div>
+            </article>
+
+            <article class="card">
+              <img src="assets/images/24.png" alt="Reflection ni Alyas">
+              <div class="meta">
+                <div class="frame-title">Frame 24 — Pagninilay: Bayani</div>
+                <div>Sa wakas, naintindihan niya na ang paghihiganti ay nagbukas ng mas mataas na layunin: proteksyon at pagmamalasakit sa iba.</div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Procedures -->
+      <section id="procedures" class="procedures" aria-labelledby="proc-title">
+        <h2 id="proc-title" style="color:#eaf6ff">Mga Proseso: Pag-install, Paglalaro, at Gumawa ng Sariling Laro</h2>
+
+        <div class="proc">
+          <h3 style="margin-top:0;color:var(--accent)">A. Proseso para makapag-install at makapaglaro ng Mitosanglaban (PC)</h3>
+          <ol>
+            <li>I-download ang zip file: i-click ang <strong>Download Game</strong> button sa itaas. Ang file ay dapat pinangalanang <code>mitosanglaban-game.zip</code> at naka-host sa <code>https://mitosangalaban.github.io/</code>.</li>
+            <li>Kapag natapos ang pag-download, i-extract ang zip sa isang folder (kanilang right-click &rarr; "Extract all" o gumamit ng 7-Zip/WinRAR).</li>
+            <li>Buksan ang folder at hanapin ang <code>README.txt</code> o <code>run.bat</code>/<code>mitosanglaban.exe</code> (depende sa build). Sundin ang mga tagubilin sa README.</li>
+            <li>Kung kinakailangan, i-install ang anumang runtime na nakalista (hal. Microsoft Visual C++ Redistributable). Sundin ang mga link sa README kung may kulang na dependencies.</li>
+            <li>Patakbuhin ang laro sa pamamagitan ng pag-double click sa executable (Windows: <code>mitosanglaban.exe</code>) at i-configure ang controls sa settings ng laro kung kinakailangan.</li>
+            <li>Kung may problema, buksan ang <code>logs</code> folder at i-padala ang nilalaman sa amin para sa suporta.</li>
+          </ol>
+          <p class="note">Tandaan: Kung ginamit mo ang GitHub Pages, siguraduhing inilagay ang zip file sa root o sa <code>/assets/</code> at i-enable ang Pages para sa direktang pag-access sa <code>https://mitosangalaban.github.io/mitosanglaban-game.zip</code>.</p>
+        </div>
+
+        <div class="proc">
+          <h3 style="margin-top:0;color:var(--accent)">B. Proseso para sa mga bata: Gumawa ng sarili mong maliit na laro gamit ang Fighting Game Developer Toolkit</h3>
+          <ol>
+            <li>I-download ang <strong>Fighting Game Developer Toolkit</strong> sa pamamagitan ng <strong>Download Fighting Game Developer Toolkit</strong> button. Tiyaking ang file ay <code>mitosanglaban-toolkit.zip</code>.</li>
+            <li>I-extract ang toolkit zip sa isang folder. Sa loob, makikita mo ang mga simpleng halimbawa (sample projects), mga larawan, at isang <code>README.md</code> na may step-by-step na gabay.</li>
+            <li>Buksan ang folder ng isang sample project. Karaniwan may <code>scenes</code>, <code>sprites</code>, at <code>config</code> files—subukan palitan ang mga larawan sa <code>sprites</code> para makita ang pagbabago sa laro.</li>
+            <li>Sundin ang halimbawang <code>how-to-play.txt</code> o <code>README.md</code> para patakbuhin ang sample (madalas may <code>run.bat</code> o <code>index.html</code> para sa browser build).</li>
+            <li>Simulan sa maliit: palitan ang pangalan at hitsura ng isang karakter, baguhin ang bilis ng paggalaw, at subukan kung paano lumalaban sa simpleng AI.</li>
+            <li>Kapag komportable ka na, pagsamahin ang bagong mga sprites at sundin ang dokumentasyon para gumawa ng sariling scene at talunin ang unang boss.</li>
+            <li>I-save ang proyekto at i-compress (zip) kung gusto mong ibahagi o i-upload sa GitHub para ipakita sa iba.</li>
+          </ol>
+          <p class="note">Gabay para sa magulang/guro: I-monitor ang paggamit at tulungan ang bata sa unang mga hakbang—ang toolkit ay ginawa na simple at modular para sa madaling pag-aaral.</p>
+        </div>
+      </section>
+
+      <footer>
+        <div>© Mitosanglaban — mitosangalaban.github.io</div>
+        <div style="margin-top:6px;color:var(--muted)">Upang gawin ang mga download diretso, ilagay ang zip files sa iyong GitHub Pages (root o assets folder). Basahin ang setup guide sa ibaba.</div>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // Maliit na enhancement: kung kailangan mong palitan ang domain/file, i-update lang ang href sa mga id na ito.
+    // Note: 'download' attribute kasama para mas pilitin ang direktang pag-download kapag nasa parehong origin.
+    (function(){
+      const game = document.getElementById('download-game');
+      const tk = document.getElementById('download-toolkit');
+      // Safety check: kung nasa ibang host o wala ang file, user ay makakatanggap ng 404 mula sa server.
+      // Palitan ang mga href sa tamang file name sa iyong repo (hal: /assets/mitosanglaban-game.zip)
+      // Walang dagdag na JS na kailangan—simple direct link & download attribute lang.
+    })();
+  </script>
+</body>
+</html>
